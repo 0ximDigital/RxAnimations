@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f5f5f5</color>
+    <color name="colorPrimaryDark">#e0e0e0</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="charcoal_grey">#3e3d3f</color>
+    <color name="steel_grey">#84898e</color>
+    <color name="light_transparent_color">#19000000</color>
+
+    <color name="color_one">#71bbd5</color>
+    <color name="color_two">#d266a7</color>
+    <color name="color_three">#4487c0</color>
+    <color name="color_four">#45aa84</color>
+</resources>

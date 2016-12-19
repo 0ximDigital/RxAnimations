@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="half_margin">4dp</dimen>
+    <dimen name="smallest_margin">8dp</dimen>
+    <dimen name="small_margin">16dp</dimen>
+    <dimen name="normal_margin">24dp</dimen>
+    <dimen name="large_margin">32dp</dimen>
+
+    <dimen name="color_card_corner_radius">3dp</dimen>
+    <dimen name="color_card_start_shadow_width">4dp</dimen>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle"
+       android:width="@dimen/color_card_start_shadow_width">
+    <solid android:color="@color/light_transparent_color"/>
+    <corners android:bottomLeftRadius="@dimen/color_card_corner_radius"
+             android:topLeftRadius="@dimen/color_card_corner_radius"/>
+</shape>

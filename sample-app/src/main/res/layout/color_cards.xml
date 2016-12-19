@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/color_cards_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/smallest_margin"
+    android:paddingStart="@dimen/smallest_margin">
+
+    <include
+        android:id="@+id/color_card_one"
+        layout="@layout/card_color"/>
+
+    <include
+        android:id="@+id/color_card_two"
+        layout="@layout/card_color"/>
+
+    <include
+        android:id="@+id/color_card_three"
+        layout="@layout/card_color"/>
+
+    <include
+        android:id="@+id/color_card_four"
+        layout="@layout/card_color"/>
+
+</LinearLayout>
