@@ -23,7 +23,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "0.8.0"
+        versionName rootProject.ext.versionName
     }
     buildTypes {
         release {
@@ -47,3 +47,6 @@ dependencies {
 
     provided 'io.reactivex:rxandroid:1.2.1'
 }
+
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'

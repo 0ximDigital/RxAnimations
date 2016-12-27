@@ -1,0 +1,76 @@
+/*
+ * Copyright 2016 Mihael Franceković
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// TODO TODO TODO
+
+apply plugin: 'com.jfrog.bintray'
+
+version = rootProject.ext.versionName
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+
+ext {
+    siteUrl = 'https://github.com/0ximDigital/RxAnimations'
+    gitUrl = 'https://github.com/0ximDigital/RxAnimations.git'
+    libraryDescription = 'Android animations framework Rx wrapper'
+}
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = 'RxAnimations'
+        name = 'RxAnimations'
+        userOrg = properties.getProperty("bintray.userOrg")
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        issueTrackerUrl = siteUrl+'/issues'
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = false
+        publicDownloadNumbers = true
+        version {
+            released = new Date()
+            desc = libraryDescription
+            name = rootProject.ext.versionName
+            vcsTag = rootProject.ext.versionName
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
