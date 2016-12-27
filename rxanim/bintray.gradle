@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// TODO TODO TODO
-
 apply plugin: 'com.jfrog.bintray'
 
 version = rootProject.ext.versionName
@@ -55,7 +53,7 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = 'RxAnimations'
+        repo = 'RxAnimationsRepo'
         name = 'RxAnimations'
         userOrg = properties.getProperty("bintray.userOrg")
         desc = libraryDescription
