@@ -7,10 +7,12 @@ Download
 --------
 
 ```groovy
-  compile 'oxim.digital:rxanim:0.8.0'
+  compile 'oxim.digital:rxanim:0.8.1'
     
   compile 'io.reactivex:rxandroid:1.2.1'
 ```
+
+[ ![Download](https://api.bintray.com/packages/0ximdigital/RxAnimationsRepo/RxAnimations/images/download.svg) ](https://bintray.com/0ximdigital/RxAnimationsRepo/RxAnimations/_latestVersion)
 
 RxAnimations library is so far only compatible with rxJava 1.  
 Port for the RxJava2 support is to be expected soon.  
