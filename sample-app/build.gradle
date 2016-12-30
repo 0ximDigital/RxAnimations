@@ -53,5 +53,7 @@ dependencies {
 
     compile 'io.reactivex:rxandroid:1.2.1'
 
+//    compile 'oxim.digital:rxanim:0.8.0'
+
     compile project(':rxanim')
 }

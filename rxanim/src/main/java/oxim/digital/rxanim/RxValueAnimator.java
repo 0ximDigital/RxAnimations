@@ -36,5 +36,9 @@ public final class RxValueAnimator implements Completable.CompletableOnSubscribe
             }
         });
     }
+
+    public Completable schedule() {
+        return Completable.create(this);
+    }
 }
 
