@@ -1,5 +1,8 @@
 # RxAnimations
 
+[![Download](https://api.bintray.com/packages/0ximdigital/RxAnimationsRepo/RxAnimations/images/download.svg) ](https://bintray.com/0ximdigital/RxAnimationsRepo/RxAnimations/_latestVersion)
+[![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
+
 RxAnimations is a library with the main goal to make android animations more solid and cohesive.
 
 
@@ -7,12 +10,10 @@ Download
 --------
 
 ```groovy
-  compile 'oxim.digital:rxanim:0.8.1'
+  compile 'oxim.digital:rxanim:0.8.2'
     
   compile 'io.reactivex:rxandroid:1.2.1'
 ```
-
-[ ![Download](https://api.bintray.com/packages/0ximdigital/RxAnimationsRepo/RxAnimations/images/download.svg) ](https://bintray.com/0ximdigital/RxAnimationsRepo/RxAnimations/_latestVersion)
 
 RxAnimations library is so far only compatible with rxJava 1.  
 Port for the RxJava2 support is to be expected soon.  
