@@ -1,6 +1,7 @@
 package oxim.digital.rxanimations.colorpicker;
 
-import rx.Completable;
+
+import io.reactivex.Completable;
 
 public interface ColorPickerContract {
 

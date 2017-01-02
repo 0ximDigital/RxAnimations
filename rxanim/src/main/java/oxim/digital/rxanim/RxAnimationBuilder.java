@@ -5,12 +5,11 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 import java.util.List;
 
-import rx.Completable;
-import rx.functions.Action1;
+import io.reactivex.Completable;
+import io.reactivex.functions.Consumer;
 
 public final class RxAnimationBuilder {
 
@@ -25,11 +24,13 @@ public final class RxAnimationBuilder {
     }
 
     public static RxAnimationBuilder animate(final View view, final int duration) {
-        return new RxAnimationBuilder(view, duration, DEFAULT_DELAY, new AccelerateDecelerateInterpolator());
+        return new RxAnimationBuilder(view, duration, DEFAULT_DELAY,
+                new AccelerateDecelerateInterpolator());
     }
 
     public static RxAnimationBuilder animate(final int delay, final View view) {
-        return new RxAnimationBuilder(view, DEFAULT_DURATION, delay, new AccelerateDecelerateInterpolator());
+        return new RxAnimationBuilder(view, DEFAULT_DURATION, delay,
+                new AccelerateDecelerateInterpolator());
     }
 
     public static RxAnimationBuilder animate(final View view, final int duration, final int delay) {
@@ -40,22 +41,25 @@ public final class RxAnimationBuilder {
         return new RxAnimationBuilder(view, DEFAULT_DURATION, DEFAULT_DELAY, interpolator);
     }
 
-    public static RxAnimationBuilder animate(final View view, final int duration, final int delay, final Interpolator interpolator) {
+    public static RxAnimationBuilder animate(final View view, final int duration, final int delay,
+                                             final Interpolator interpolator) {
         return new RxAnimationBuilder(view, duration, delay, interpolator);
     }
 
-    private RxAnimationBuilder(final View view, final int duration, final int delay, final Interpolator interpolator) {
-        this.viewWeakRef = new WeakReference<>(view);
+    private RxAnimationBuilder(final View view, final int duration, final int delay,
+                               final Interpolator interpolator) {
+        this.view = view;
         this.preTransformActions = new LinkedList<>();
         this.animateActions = new LinkedList<>();
 
-        this.animateActions.add(animate -> animate.setDuration(duration).setStartDelay(delay).setInterpolator(interpolator));
+        this.animateActions.add(animate -> animate.setDuration(duration)
+                .setStartDelay(delay)
+                .setInterpolator(interpolator));
     }
 
-    final List<Action1<ViewPropertyAnimatorCompat>> preTransformActions;
-    final List<Action1<ViewPropertyAnimatorCompat>> animateActions;
-
-    final WeakReference<View> viewWeakRef;
+    final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
+    final List<Consumer<ViewPropertyAnimatorCompat>> animateActions;
+    final View view;
 
     public RxAnimationBuilder duration(final int duration) {
         animateActions.add(animate -> animate.setDuration(duration));
@@ -141,13 +145,11 @@ public final class RxAnimationBuilder {
     }
 
     public Completable schedule() {
-        return Completable.create(new AnimateOnSubscribe(viewWeakRef, preTransformActions, animateActions));
+        return new AnimateCompletable(view, preTransformActions, animateActions);
     }
 
     public Completable schedule(final boolean preTransform) {
-        return Completable.create(new AnimateOnSubscribe(viewWeakRef,
-                                                         preTransform ? preTransformActions : null,
-                                                         animateActions));
+        return new AnimateCompletable(view, preTransform ? preTransformActions : null, animateActions);
     }
 
     private static Interpolator defaultInterpolator() {

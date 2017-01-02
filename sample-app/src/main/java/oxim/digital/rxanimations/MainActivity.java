@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         final ValueAnimator opacityAnimator = ValueAnimator.ofFloat(0.f, 1.f);
         opacityAnimator.setDuration(ANIMATION_DURATION);
         final RxValueAnimator rxValueAnimator = RxValueAnimator.from(opacityAnimator,
-                                                                     animator -> sampleView.setAlpha((float) animator.getAnimatedValue()));
-        rxValueAnimator.schedule().subscribe();
+                animator -> sampleView.setAlpha((float) animator.getAnimatedValue()));
+        rxValueAnimator.subscribe();
     }
 }

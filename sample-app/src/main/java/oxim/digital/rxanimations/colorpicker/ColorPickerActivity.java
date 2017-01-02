@@ -13,9 +13,9 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Completable;
+import io.reactivex.subjects.BehaviorSubject;
 import oxim.digital.rxanimations.R;
-import rx.Completable;
-import rx.subjects.BehaviorSubject;
 
 import static oxim.digital.rxanim.RxAnimations.animateTogether;
 import static oxim.digital.rxanim.RxAnimations.enterViewsWithDelay;
@@ -83,7 +83,7 @@ public final class ColorPickerActivity extends AppCompatActivity implements Colo
     @Bind(R.id.color_card_four)
     CardView colorCardFour;
 
-    private BehaviorSubject<Boolean> viewReadySignal = BehaviorSubject.create(false);
+    private BehaviorSubject<Boolean> viewReadySignal = BehaviorSubject.createDefault(false);
 
     private ColorPickerContract.Presenter presenter;
 
@@ -109,8 +109,8 @@ public final class ColorPickerActivity extends AppCompatActivity implements Colo
     @Override
     public void onWindowFocusChanged(final boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (!viewReadySignal.hasCompleted() && hasFocus) {
-            viewReadySignal.onCompleted();
+        if (!viewReadySignal.hasComplete() && hasFocus) {
+            viewReadySignal.onComplete();
         }
     }
 
@@ -136,7 +136,7 @@ public final class ColorPickerActivity extends AppCompatActivity implements Colo
     }
 
     private Completable viewReadyCompletable() {
-        return viewReadySignal.toCompletable();
+        return viewReadySignal.ignoreElements();
     }
 
     @OnClick(R.id.root_container)

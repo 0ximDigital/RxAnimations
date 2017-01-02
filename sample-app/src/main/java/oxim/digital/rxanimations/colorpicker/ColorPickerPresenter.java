@@ -2,14 +2,10 @@ package oxim.digital.rxanimations.colorpicker;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 public final class ColorPickerPresenter extends BasePresenter<ColorPickerContract.View> implements ColorPickerContract.Presenter {
-
-    public ColorPickerPresenter() {
-
-    }
 
     @Override
     public void refreshView() {
@@ -18,13 +14,13 @@ public final class ColorPickerPresenter extends BasePresenter<ColorPickerContrac
             return;
         }
 
-        final Subscription animationSubscription = view.setupInitialAnimation()
-                                                       .delay(500, TimeUnit.MILLISECONDS)
-                                                       .observeOn(AndroidSchedulers.mainThread())
-                                                       .concatWith(view.startInitialAnimation())
-                                                       .subscribe(Throwable::printStackTrace, this::onAnimationEnd);
+        final Disposable animationDisposable = view.setupInitialAnimation()
+                .delay(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .concatWith(view.startInitialAnimation())
+                .subscribe(this::onAnimationEnd, Throwable::printStackTrace);
 
-        addSubscription(animationSubscription);
+        addSubscription(animationDisposable);
     }
 
     private void onAnimationEnd() {

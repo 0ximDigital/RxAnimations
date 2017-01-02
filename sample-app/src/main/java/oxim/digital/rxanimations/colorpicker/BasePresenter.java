@@ -4,39 +4,39 @@ import android.support.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public abstract class BasePresenter<T extends BaseView> implements ScopedPresenter<T> {
 
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeSubscription;
     private WeakReference<T> viewWeakReference;
 
     @Override
     public void bind(final T view) {
         this.viewWeakReference = new WeakReference<>(view);
-        compositeSubscription = new CompositeSubscription();
+        compositeSubscription = new CompositeDisposable();
     }
 
     @Override
     public void unbind() {
-        if (compositeSubscription != null && !compositeSubscription.isUnsubscribed()) {
-            compositeSubscription.unsubscribe();
+        if (compositeSubscription != null && !compositeSubscription.isDisposed()) {
+            compositeSubscription.dispose();
             compositeSubscription = null;
         }
     }
 
-    protected final void addSubscription(final Subscription subscription) {
-        if(compositeSubscription != null && !compositeSubscription.isUnsubscribed()) {
+    protected final void addSubscription(final Disposable subscription) {
+        if (compositeSubscription != null && !compositeSubscription.isDisposed()) {
             compositeSubscription.add(subscription);
         }
     }
 
-    protected void doIfViewNotNull(final Action1<T> whenViewNotNull) {
+    protected void doIfViewNotNull(final Consumer<T> whenViewNotNull) throws Exception {
         final T view = getNullableView();
         if (view != null) {
-            whenViewNotNull.call(view);
+            whenViewNotNull.accept(view);
         }
     }
 

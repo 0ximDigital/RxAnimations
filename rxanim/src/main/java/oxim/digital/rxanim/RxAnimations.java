@@ -8,10 +8,11 @@ import android.view.animation.LinearInterpolator;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Completable;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 import static oxim.digital.rxanim.RxAnimationBuilder.animate;
 
@@ -19,8 +20,8 @@ public final class RxAnimations {
 
     private static final int IMMEDIATE = 0;
 
-    public static Completable animateTogether(final Completable... completables) {
-        return Completable.merge(completables);
+    public static Completable animateTogether(final CompletableSource... completables) {
+        return Completable.mergeArray(completables);
     }
 
     public static Completable hide(final View view) {
@@ -28,9 +29,8 @@ public final class RxAnimations {
     }
 
     public static Completable hide(final View... views) {
-        return Observable.from(views)
-                         .flatMap(view -> hide(view).toObservable())
-                         .toCompletable();
+        return Observable.fromArray(views)
+                .flatMapCompletable(RxAnimations::hide);
     }
 
     public static Completable hideViewGroupChildren(final ViewGroup viewGroup) {
@@ -38,9 +38,8 @@ public final class RxAnimations {
     }
 
     public static Completable hideViewGroupChildren(final ViewGroup... viewGroups) {
-        return Observable.from(viewGroups)
-                         .flatMap(viewGroup -> hideViewGroupChildren(viewGroup).toObservable())
-                         .toCompletable();
+        return Observable.fromArray(viewGroups)
+                .flatMapCompletable(RxAnimations::hideViewGroupChildren);
     }
 
     private static void hideViewGroup(final ViewGroup viewGroup) {
@@ -55,47 +54,76 @@ public final class RxAnimations {
     }
 
     public static Completable show(final View view) {
-        return animate(view, IMMEDIATE).fadeIn().schedule();
+        return animate(view, IMMEDIATE)
+                .fadeIn()
+                .schedule();
     }
 
     public static Completable fadeIn(final View view) {
-        return animate(view).fadeIn().schedule();
+        return animate(view)
+                .fadeIn()
+                .schedule();
     }
 
     public static Completable fadeIn(final View view, final int duration) {
-        return animate(view, new DecelerateInterpolator()).duration(duration).fadeIn().schedule();
+        return animate(view, new DecelerateInterpolator())
+                .duration(duration)
+                .fadeIn()
+                .schedule();
     }
 
     public static Completable fadeIn(final View view, final int duration, final int delay) {
-        return animate(view, duration, delay).interpolator(new DecelerateInterpolator()).fadeIn().schedule();
+        return animate(view, duration, delay)
+                .interpolator(new DecelerateInterpolator())
+                .fadeIn()
+                .schedule();
     }
 
     public static Completable fadeInWithDelay(final int delay, final int duration, final View... views) {
         return Observable.range(0, views.length)
-                         .flatMap(i -> animate(views[i], new LinearInterpolator()).duration(duration).delay(i * delay).fadeIn().schedule().toObservable())
-                         .toCompletable();
+                .flatMapCompletable(i -> animate(views[i], new LinearInterpolator())
+                        .duration(duration)
+                        .delay(i * delay)
+                        .fadeIn().schedule());
     }
 
     public static Completable slideIn(final View view, final int duration, final int xOffset) {
-        return animate(view, new DecelerateInterpolator()).duration(duration).translateBy(xOffset, 0).schedule();
+        return animate(view, new DecelerateInterpolator())
+                .duration(duration)
+                .translateBy(xOffset, 0)
+                .schedule();
     }
 
     public static Completable enter(final View view, final int xOffset, final int yOffset) {
-        return animate(view, new DecelerateInterpolator()).fadeIn().translateBy(xOffset, yOffset).schedule();
+        return animate(view, new DecelerateInterpolator())
+                .fadeIn()
+                .translateBy(xOffset, yOffset)
+                .schedule();
     }
 
     public static Completable enter(final View view, final int delay, final int xOffset, final int yOffset) {
-        return animate(view, new DecelerateInterpolator()).delay(delay).fadeIn().translateBy(xOffset, yOffset).schedule();
+        return animate(view, new DecelerateInterpolator())
+                .delay(delay)
+                .fadeIn()
+                .translateBy(xOffset, yOffset)
+                .schedule();
     }
 
     public static Completable enter(final View view, final int duration, final int xOffset, final int yOffset, final int delay) {
-        return animate(view, duration, delay).interpolator(new DecelerateInterpolator()).fadeIn().translateBy(xOffset, yOffset).schedule();
+        return animate(view, duration, delay)
+                .interpolator(new DecelerateInterpolator())
+                .fadeIn()
+                .translateBy(xOffset, yOffset)
+                .schedule();
     }
 
     public static Completable enterTogether(final int delay, final int xOffset, final View... views) {
-        return Observable.from(views)
-                         .flatMap(view -> animate(view, new DecelerateInterpolator()).delay(delay).fadeIn().translateBy(xOffset, 0).schedule().toObservable())
-                         .toCompletable();
+        return Observable.fromArray(views)
+                .flatMapCompletable(view -> animate(view, new DecelerateInterpolator())
+                        .delay(delay)
+                        .fadeIn()
+                        .translateBy(xOffset, 0)
+                        .schedule());
     }
 
     public static Completable enterViewsWithDelay(final int delay, final int duration, final int xOffset, final View... views) {
@@ -104,21 +132,27 @@ public final class RxAnimations {
 
     public static Completable enterViewsWithDelay(final int initialDelay, final int delay, final int duration, final int xOffset, final View... views) {
         return Observable.range(0, views.length)
-                         .flatMap(i -> enter(views[i], duration, xOffset, 0, i * delay + initialDelay).toObservable())
-                         .toCompletable();
+                .flatMapCompletable(i -> enter(views[i], duration, xOffset, 0, i * delay + initialDelay));
     }
 
     public static Completable enterWithRotation(final View view, final int duration, final int xOffset, final int yOffset, final int delay, final int rotation) {
-        return animate(view, duration, delay).fadeIn().rotate(rotation).translateBy(xOffset, yOffset).schedule();
+        return animate(view, duration, delay)
+                .fadeIn()
+                .rotate(rotation)
+                .translateBy(xOffset, yOffset)
+                .schedule();
     }
 
     public static Completable leave(final View view, final int xOffset, final int yOffset) {
-        return animate(view, new AccelerateInterpolator()).fadeOut().translateBy(-xOffset, -yOffset).schedule();
+        return animate(view, new AccelerateInterpolator())
+                .fadeOut()
+                .translateBy(-xOffset, -yOffset)
+                .schedule();
     }
 
-    public static Completable doAfterDelay(final int delay, final Action0 action) {
+    public static Completable doAfterDelay(final int delay, final Action action) {
         return Completable.timer(delay, TimeUnit.MILLISECONDS)
-                          .observeOn(AndroidSchedulers.mainThread())
-                          .concatWith(Completable.fromAction(action));
+                .observeOn(AndroidSchedulers.mainThread())
+                .concatWith(Completable.fromAction(action));
     }
 }
