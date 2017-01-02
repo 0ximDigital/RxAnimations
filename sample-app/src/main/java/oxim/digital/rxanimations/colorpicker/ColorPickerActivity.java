@@ -42,7 +42,7 @@ public final class ColorPickerActivity extends AppCompatActivity implements Colo
     private static final int WELCOME_TEXT_DELAY = 600;
 
     private static final int SETTINGS_ICON_DELAY = 600;
-    private static final int SETTINGS_ICON_ROTATION = 60;
+    private static final int SETTINGS_ICON_ROTATION = -60;
 
     @Bind(R.id.palette_background)
     ImageView paletteBackground;

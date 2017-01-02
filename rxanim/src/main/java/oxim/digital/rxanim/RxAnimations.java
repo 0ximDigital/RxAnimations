@@ -109,7 +109,7 @@ public final class RxAnimations {
     }
 
     public static Completable enterWithRotation(final View view, final int duration, final int xOffset, final int yOffset, final int delay, final int rotation) {
-        return animate(view, duration, delay).fadeIn().rotate(rotation).translateBy(xOffset, yOffset).schedule();
+        return animate(view, duration, delay).fadeIn().counterRotateBy(rotation).translateBy(xOffset, yOffset).schedule();
     }
 
     public static Completable leave(final View view, final int xOffset, final int yOffset) {

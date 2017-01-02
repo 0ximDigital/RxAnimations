@@ -84,13 +84,17 @@ public final class RxAnimationBuilder {
     }
 
     public RxAnimationBuilder rotate(final float rotation) {
-        preTransformActions.add(preTransform -> preTransform.rotation(rotation));
-        animateActions.add(animate -> animate.rotation(0));
+        animateActions.add(animate -> animate.rotation(rotation));
         return this;
     }
 
     public RxAnimationBuilder rotateBy(final float rotation) {
-        preTransformActions.add(preTransform -> preTransform.rotationBy(rotation));
+        animateActions.add(animate -> animate.rotationBy(rotation));
+        return this;
+    }
+
+    public RxAnimationBuilder counterRotateBy(final float rotation) {
+        preTransformActions.add(preTransform -> preTransform.rotationBy(-rotation));
         animateActions.add(animate -> animate.rotationBy(rotation));
         return this;
     }

@@ -1,6 +1,5 @@
 package oxim.digital.rxanimations;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import oxim.digital.rxanim.RxValueAnimator;
+import oxim.digital.rxanim.RxAnimationBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.root_view)
     public void animateSampleView() {
-        final ValueAnimator opacityAnimator = ValueAnimator.ofFloat(0.f, 1.f);
-        opacityAnimator.setDuration(ANIMATION_DURATION);
-        final RxValueAnimator rxValueAnimator = RxValueAnimator.from(opacityAnimator,
-                                                                     animator -> sampleView.setAlpha((float) animator.getAnimatedValue()));
-        rxValueAnimator.schedule().subscribe();
+        RxAnimationBuilder.animate(sampleView, ANIMATION_DURATION)
+                          .counterRotateBy(60)
+                          .fadeIn()
+                          .schedule()
+                          .subscribe();
     }
 }
