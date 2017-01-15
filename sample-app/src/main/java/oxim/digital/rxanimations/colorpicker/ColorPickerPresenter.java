@@ -28,7 +28,7 @@ public final class ColorPickerPresenter extends BasePresenter<ColorPickerContrac
                                     .delay(500, TimeUnit.MILLISECONDS)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .concatWith(view.startInitialAnimation())
-                                    .subscribe(Throwable::printStackTrace, this::onAnimationEnd);
+                                    .subscribe(this::onAnimationEnd, Throwable::printStackTrace);
     }
 
     private void onAnimationEnd() {

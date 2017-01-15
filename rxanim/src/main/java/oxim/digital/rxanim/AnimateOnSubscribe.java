@@ -10,10 +10,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import rx.Completable;
+import rx.CompletableSubscriber;
 import rx.Subscription;
 import rx.functions.Action1;
 
-public final class AnimateOnSubscribe implements Completable.CompletableOnSubscribe {
+public final class AnimateOnSubscribe implements Completable.OnSubscribe {
 
     private static final int NONE = 0;
 
@@ -38,7 +39,7 @@ public final class AnimateOnSubscribe implements Completable.CompletableOnSubscr
     }
 
     @Override
-    public void call(final Completable.CompletableSubscriber completableSubscriber) {
+    public void call(final CompletableSubscriber completableSubscriber) {
         final View view = viewWeakRef.get();
         if (view == null) {
             completableSubscriber.onCompleted();
@@ -64,7 +65,7 @@ public final class AnimateOnSubscribe implements Completable.CompletableOnSubscr
         }
     }
 
-    private void runAnimation(final Completable.CompletableSubscriber completableSubscriber, final ViewPropertyAnimatorCompat animator) {
+    private void runAnimation(final CompletableSubscriber completableSubscriber, final ViewPropertyAnimatorCompat animator) {
         applyActions(animationActions, animator);
         animator.withEndAction(completableSubscriber::onCompleted)
                 .start();
