@@ -15,8 +15,13 @@ Download
   compile 'io.reactivex:rxandroid:1.2.1'
 ```
 
-RxAnimations library is so far only compatible with rxJava 1.  
-Port for the RxJava2 support is to be expected soon.  
+#### RxJava version compatibility:
+
+This RxAnimations library is only compatible with rxJava 1 up to 1.2.0
+If you are using rxJava 1.2.x version, take a look [here](https://github.com/0ximDigital/RxAnimations/tree/master).
+
+If you are searching for the one compatible with rxJava 2, take a look over [here](https://github.com/0ximDigital/Rx2Animations).
+
   
 Usage
 --------
