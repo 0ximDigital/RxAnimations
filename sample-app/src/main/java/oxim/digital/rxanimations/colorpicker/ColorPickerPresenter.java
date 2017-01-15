@@ -7,6 +7,8 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public final class ColorPickerPresenter extends BasePresenter<ColorPickerContract.View> implements ColorPickerContract.Presenter {
 
+    private Subscription animationSubscription;
+
     public ColorPickerPresenter() {
 
     }
@@ -18,17 +20,18 @@ public final class ColorPickerPresenter extends BasePresenter<ColorPickerContrac
             return;
         }
 
-        final Subscription animationSubscription = view.setupInitialAnimation()
-                                                       .delay(500, TimeUnit.MILLISECONDS)
-                                                       .observeOn(AndroidSchedulers.mainThread())
-                                                       .concatWith(view.startInitialAnimation())
-                                                       .subscribe(Throwable::printStackTrace, this::onAnimationEnd);
+        if (animationSubscription != null && animationSubscription.isUnsubscribed()) {
+            animationSubscription.unsubscribe();
+        }
 
-        addSubscription(animationSubscription);
+        animationSubscription = view.setupInitialAnimation()
+                                    .delay(500, TimeUnit.MILLISECONDS)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .concatWith(view.startInitialAnimation())
+                                    .subscribe(this::onAnimationEnd, Throwable::printStackTrace);
     }
 
     private void onAnimationEnd() {
 
     }
-
 }

@@ -8,16 +8,33 @@
     tools:context="oxim.digital.rxanimations.MainActivity">
 
     <FrameLayout
-        android:id="@+id/sample_view"
+        android:id="@+id/top_sample_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="72dp"
         android:background="@color/color_three">
 
         <View
-            android:layout_gravity="center_horizontal"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_two"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_sample_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="72dp"
+        android:background="@color/color_three">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
             android:background="@color/color_two"/>
 
     </FrameLayout>

@@ -46,6 +46,7 @@ dependencies {
     compile 'com.android.support:support-annotations:25.0.0'
 
     provided 'io.reactivex:rxandroid:1.2.1'
+    provided 'io.reactivex:rxjava:1.2.5'
 }
 
 apply from: 'install.gradle'

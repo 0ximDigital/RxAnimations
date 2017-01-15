@@ -10,13 +10,18 @@ Download
 --------
 
 ```groovy
-  compile 'oxim.digital:rxanim:0.8.2'
+  compile 'oxim.digital:rxanim:0.9.0'
     
   compile 'io.reactivex:rxandroid:1.2.1'
+  compile 'io.reactivex:rxjava:1.2.5'
 ```
 
-RxAnimations library is so far only compatible with rxJava 1.  
-Port for the RxJava2 support is to be expected soon.  
+#### RxJava version compatibility:
+
+This RxAnimations library is only compatible with rxJava 1 greater than 1.2.x.  
+If you are using rxJava 1.1.x version, take a look [here](https://github.com/0ximDigital/RxAnimations/tree/develop-rx-lt-1.2).
+
+If you are searching for the one compatible with rxJava 2, take a look over [here](https://github.com/0ximDigital/Rx2Animations).
   
 Usage
 --------
@@ -76,6 +81,7 @@ Moreover, it also provides many regulary used animation methods (static import) 
                           ...
                           .schedule([ | false]);
 ```
+
             
 Animation created with `RxAnimationBuilder` automatically pretransforms the view, if not set otherwise.   
 I.e. if `fadeIn()` is called, views opacity will be set to 0.f before animation starts.  
