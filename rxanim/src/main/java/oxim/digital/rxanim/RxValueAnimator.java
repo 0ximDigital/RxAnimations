@@ -11,15 +11,23 @@ public final class RxValueAnimator implements Completable.CompletableOnSubscribe
 
     private final ValueAnimator valueAnimator;
     private final Action1<ValueAnimator> valueUpdateAction;
+    private final Action1<ValueAnimator> animationCancelAction;
 
     public static RxValueAnimator from(final ValueAnimator valueAnimator, final Action1<ValueAnimator> valueUpdateAction) {
-        return new RxValueAnimator(valueAnimator, valueUpdateAction);
+        return new RxValueAnimator(valueAnimator, valueUpdateAction, aValueAnimator -> {});
     }
 
-    private RxValueAnimator(final ValueAnimator valueAnimator, final Action1<ValueAnimator> valueUpdateAction) {
+    public static RxValueAnimator from(final ValueAnimator valueAnimator, final Action1<ValueAnimator> valueUpdateAction,
+                                       final Action1<ValueAnimator> animationCancelAction) {
+        return new RxValueAnimator(valueAnimator, valueUpdateAction, animationCancelAction);
+    }
+
+    private RxValueAnimator(final ValueAnimator valueAnimator, final Action1<ValueAnimator> valueUpdateAction,
+                            final Action1<ValueAnimator> animationCancelAction) {
         this.valueAnimator = valueAnimator;
         this.valueAnimator.addUpdateListener(valueUpdateAction::call);
         this.valueUpdateAction = valueUpdateAction;
+        this.animationCancelAction = animationCancelAction;
     }
 
     @Override
@@ -28,6 +36,11 @@ public final class RxValueAnimator implements Completable.CompletableOnSubscribe
         valueAnimator.addUpdateListener(valueUpdateAction::call);
         valueAnimator.start();
         valueAnimator.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationCancel(final Animator animation) {
+                animationCancelAction.call(valueAnimator);
+            }
 
             @Override
             public void onAnimationEnd(final Animator animation) {
