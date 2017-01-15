@@ -52,8 +52,10 @@ public final class RxAnimationBuilder {
         this.animateActions.add(animate -> animate.setDuration(duration).setStartDelay(delay).setInterpolator(interpolator));
     }
 
-    final List<Action1<ViewPropertyAnimatorCompat>> preTransformActions;
-    final List<Action1<ViewPropertyAnimatorCompat>> animateActions;
+    private final List<Action1<ViewPropertyAnimatorCompat>> preTransformActions;
+    private final List<Action1<ViewPropertyAnimatorCompat>> animateActions;
+
+    private Action1<View> onAnimationCancelAction = view -> {};
 
     final WeakReference<View> viewWeakRef;
 
@@ -144,14 +146,20 @@ public final class RxAnimationBuilder {
         return this;
     }
 
+    public RxAnimationBuilder onAnimationCancel(final Action1<View> onAnimationCancelAction) {
+        this.onAnimationCancelAction = onAnimationCancelAction;
+        return this;
+    }
+
     public Completable schedule() {
-        return Completable.create(new AnimateOnSubscribe(viewWeakRef, preTransformActions, animateActions));
+        return Completable.create(new AnimateOnSubscribe(viewWeakRef, preTransformActions, animateActions, onAnimationCancelAction));
     }
 
     public Completable schedule(final boolean preTransform) {
         return Completable.create(new AnimateOnSubscribe(viewWeakRef,
                                                          preTransform ? preTransformActions : null,
-                                                         animateActions));
+                                                         animateActions,
+                                                         onAnimationCancelAction));
     }
 
     private static Interpolator defaultInterpolator() {
