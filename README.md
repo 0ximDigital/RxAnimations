@@ -10,7 +10,7 @@ Download
 --------
 
 ```groovy
-  compile 'oxim.digital:rxanim:0.8.2'
+  compile 'oxim.digital:rxanim:0.8.3'
     
   compile 'io.reactivex:rxandroid:1.2.1'
 ```
@@ -76,6 +76,7 @@ Moreover, it also provides many regulary used animation methods (static import) 
                           ...
                           .schedule([ | false]);
 ```
+
             
 Animation created with `RxAnimationBuilder` automatically pretransforms the view, if not set otherwise.   
 I.e. if `fadeIn()` is called, views opacity will be set to 0.f before animation starts.  
