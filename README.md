@@ -13,7 +13,9 @@ Download
   compile 'oxim.digital:rxanim:0.9.0'
     
   compile 'io.reactivex:rxandroid:1.2.1'
+  compile 'io.reactivex:rxjava:1.2.5'
 ```
+
 #### RxJava version compatibility:
 
 This RxAnimations library is only compatible with rxJava 1 greater than 1.2.x.  
