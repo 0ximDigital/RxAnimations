@@ -5,9 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 
 import rx.Completable;
+import rx.CompletableSubscriber;
 import rx.functions.Action1;
 
-public final class RxValueAnimator implements Completable.CompletableOnSubscribe {
+public final class RxValueAnimator implements Completable.OnSubscribe {
 
     private final ValueAnimator valueAnimator;
     private final Action1<ValueAnimator> valueUpdateAction;
@@ -31,7 +32,7 @@ public final class RxValueAnimator implements Completable.CompletableOnSubscribe
     }
 
     @Override
-    public void call(final Completable.CompletableSubscriber completableSubscriber) {
+    public void call(final CompletableSubscriber completableSubscriber) {
         completableSubscriber.onSubscribe(new ClearSubscription(valueAnimator::end));
         valueAnimator.addUpdateListener(valueUpdateAction::call);
         valueAnimator.start();
