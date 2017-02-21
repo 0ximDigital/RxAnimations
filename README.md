@@ -1,6 +1,6 @@
 # RxAnimations
 
-[![Download](https://api.bintray.com/packages/0ximdigital/RxAnimationsRepo/RxAnimations/images/download.svg) ](https://bintray.com/0ximdigital/RxAnimationsRepo/RxAnimations/_latestVersion)
+[![Download](https://api.bintray.com/packages/0ximdigital/RxAnimationsRepo/RxAnimations/images/download.svg?version=0.9.1) ](https://bintray.com/0ximdigital/RxAnimationsRepo/RxAnimations/0.9.1/link)
 [![API](https://img.shields.io/badge/API-15%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=15)
 
 RxAnimations is a library with the main goal to make android animations more solid and cohesive.
