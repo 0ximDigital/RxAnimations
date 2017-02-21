@@ -10,7 +10,7 @@ Download
 --------
 
 ```groovy
-  compile 'oxim.digital:rxanim:0.8.3'
+  compile 'oxim.digital:rxanim:0.8.4'
     
   compile 'io.reactivex:rxandroid:1.2.1'
 ```
